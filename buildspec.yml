@@ -1,14 +1,12 @@
 #--------------------------------------------------------------
 # Simple AWS CodeBuild Config File
-#
-# Copyleft (c) by Denis Astahov
 #--------------------------------------------------------------
 version: 0.2
 
 env:
   variables:
-    AWS_DEFAULT_REGION: "us-west-2"
-    AWS_ACCOUNT_ID    : "032823347814"
+    AWS_DEFAULT_REGION: "eu-central-1"
+    AWS_ACCOUNT_ID    : "662793765491"
     ECR_REPO_NAME     : "webapp"
     ECR_IMAGE_TAG     : "latest"
 
@@ -22,7 +20,7 @@ phases:
   pre_build:
     commands:
       - echo "Login to AWS ECR and get commit id"
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION| docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION| docker login --username TAdmin --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       - COMMIT_ID=$(git rev-parse --short HEAD)
 
   build:
