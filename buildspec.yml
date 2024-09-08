@@ -21,19 +21,19 @@ phases:
     commands:
       - echo "Login to AWS ECR and get commit id"
       - aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 662793765491.dkr.ecr.eu-central-1.amazonaws.com
+      - git clone https://github.com/abtagir/codebuild-demo.git
+      - cd your-repo-directory
       - COMMIT_ID=$(git rev-parse --short HEAD)
 
   build:
     commands:
       - echo Building the Docker image...
       - docker build -t $ECR_REPO_NAME:$ECR_IMAGE_TAG .
-      - docker tag webapp:latest 662793765491.dkr.ecr.eu-central-1.amazonaws.com/webapp:latest
-      #- docker tag $ECR_REPO_NAME:$ECR_IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME:$ECR_IMAGE_TAG
-      #- docker tag $ECR_REPO_NAME:$ECR_IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME:$COMMIT_ID
+      - docker tag $ECR_REPO_NAME:$ECR_IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME:$ECR_IMAGE_TAG
+      - docker tag $ECR_REPO_NAME:$ECR_IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME:$COMMIT_ID
 
   post_build:
     commands:
       - echo Pushing the Docker image...
-      - docker push 662793765491.dkr.ecr.eu-central-1.amazonaws.com/webapp:latest
-      #- docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME:$ECR_IMAGE_TAG
-      #- docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME:$COMMIT_ID
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME:$ECR_IMAGE_TAG
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME:$COMMIT_ID
