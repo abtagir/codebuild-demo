@@ -1,4 +1,14 @@
+#--------------------------------------------------------------
+# Simple AWS CodeBuild Config File
+#--------------------------------------------------------------
 version: 0.2
+
+env:
+  variables:
+    AWS_DEFAULT_REGION: "eu-central-1"
+    AWS_ACCOUNT_ID    : "662793765491"
+    ECR_REPO_NAME     : "webapp"
+    ECR_IMAGE_TAG     : "latest"
 
 phases:
   install:
@@ -14,6 +24,7 @@ phases:
       - git clone https://github.com/abtagir/codebuild-demo.git
       - cd codebuild-demo
       - COMMIT_ID=$(git rev-parse --short HEAD)
+      - echo "Commit ID is $COMMIT_ID"
 
   build:
     commands:
