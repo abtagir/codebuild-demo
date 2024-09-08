@@ -38,9 +38,12 @@ phases:
       - echo Pushing the Docker image...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME:$ECR_IMAGE_TAG
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME:$COMMIT_ID
+      - echo Creating imagedefinitions.json file...
+      - printf '[{"name":"webapp","imageUri":"%s.dkr.ecr.%s.amazonaws.com/%s:%s"}]' $AWS_ACCOUNT_ID $AWS_DEFAULT_REGION $ECR_REPO_NAME $ECR_IMAGE_TAG > imagedefinitions.json
 
 artifacts:
   files:
     - '**/*'
+    - imagedefinitions.json
   discard-paths: yes
   base-directory: codebuild-demo
