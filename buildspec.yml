@@ -1,14 +1,4 @@
-#--------------------------------------------------------------
-# Simple AWS CodeBuild Config File
-#--------------------------------------------------------------
 version: 0.2
-
-env:
-  variables:
-    AWS_DEFAULT_REGION: "eu-central-1"
-    AWS_ACCOUNT_ID    : "662793765491"
-    ECR_REPO_NAME     : "webapp"
-    ECR_IMAGE_TAG     : "latest"
 
 phases:
   install:
@@ -37,3 +27,9 @@ phases:
       - echo Pushing the Docker image...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME:$ECR_IMAGE_TAG
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME:$COMMIT_ID
+
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: yes
+  base-directory: codebuild-demo
