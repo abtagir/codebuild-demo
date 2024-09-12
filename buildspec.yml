@@ -7,7 +7,7 @@ env:
   variables:
     AWS_DEFAULT_REGION: "eu-central-1"
     AWS_ACCOUNT_ID    : "662793765491"
-    ECR_REPO_NAME     : "webapp1"
+    ECR_REPO_NAME     : "webapp"
     ECR_IMAGE_TAG     : "latest"
 
 phases:
@@ -39,7 +39,7 @@ phases:
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME:$ECR_IMAGE_TAG
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO_NAME:$COMMIT_ID
       - echo Creating imagedefinitions.json file...
-      - printf '[{"name":"webapp1","imageUri":"%s.dkr.ecr.%s.amazonaws.com/%s:%s"}]' $AWS_ACCOUNT_ID $AWS_DEFAULT_REGION $ECR_REPO_NAME $ECR_IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"webapp","imageUri":"%s.dkr.ecr.%s.amazonaws.com/%s:%s"}]' $AWS_ACCOUNT_ID $AWS_DEFAULT_REGION $ECR_REPO_NAME $ECR_IMAGE_TAG > imagedefinitions.json
 
 artifacts:
   files:
